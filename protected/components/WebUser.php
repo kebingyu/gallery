@@ -1,6 +1,10 @@
 <?php
 class WebUser extends CWebUser 
 {
+	// disable default login url
+	// if necessary, loginUrl can be specified in main.php
+	public $loginUrl = null;
+
 	// Store model to not repeat query.
 	private $_model;
 

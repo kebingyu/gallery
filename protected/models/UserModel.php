@@ -17,6 +17,8 @@ class UserModel extends CActiveRecord
 	 */
 
 	public $conf_password;
+	public $new_password;
+	public $conf_email;
 	public $pcode;
 
 	/**
@@ -43,15 +45,22 @@ class UserModel extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that will receive user inputs.
 		return array(
-			array('username, password, email', 'length', 'max' => 128),
+			array('username, password, new_password, email', 'length', 'max' => 128),
+			array('email, conf_email', 'email'),
+			// register scenario
 			array('username, password, conf_password, pcode', 'required', 'on' => 'register'),
 			array('password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'register'),
 			array('pcode', 'match', 'pattern' => '/^kyu$/', 'on' => 'register'),
 			array('username', 'unique', 'on' => 'register'),
-			array('username', 'match', 'pattern' => '/^[A-Za-z0-9]+$/', 'on' => 'register'),
+			array('username', 'match', 'pattern' => '/^[A-Za-z0-9]+$/', 'on' => 'register', 
+				'message' => 'Username can only contains numbers and letters'),
+			// login scenario
 			array('username, password', 'required', 'on' => 'login'),
 			array('username', 'exist', 'on' => 'login'),
-			//array('email', 'email'),
+			// update scenario
+			array('password, new_password, conf_password, email, conf_email', 'required', 'on' => 'update'),
+			array('email', 'compare', 'compareAttribute' => 'conf_email', 'on' => 'update'),
+			array('new_password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'update'),
 		);
 	}
 
@@ -75,6 +84,8 @@ class UserModel extends CActiveRecord
 	{
 		return array(
 			'conf_password' => 'Confirm Password',
+			'new_password' => 'New Password',
+			'conf_email' => 'Confirm Email',
 			'pcode'         => 'Promo Code',
 		);
 	}

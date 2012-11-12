@@ -37,6 +37,41 @@ $email = $user->email ? $user->email : '(no email provided)';
 		</form>
 	</div>
 	<div class="profile-password">
+		<?php $form_password = $this->beginWidget('CActiveForm', array(
+			'id' => 'profile_password_form',
+			'action' => 'javascript:void(0)',
+			'class' => 'fg_form',
+			'data-title' => 'Change Password',
+		));?>
+			<?php echo $form_password->errorSummary($oModel); ?>
+			<table>
+			<tr>
+			<td class="right"><?php echo $form_password->labelEx($oModel, 'password', array('label' => 'Current Password'));?></td>
+			<td><?php echo $form_password->passwordField($oModel, 'password', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td class="right"><?php echo $form_password->labelEx($oModel, 'new_password');?></td>
+			<td><?php echo $form_password->textField($oModel, 'password', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td class="right"><?php echo $form_password->labelEx($oModel, 'conf_password');?></td>
+			<td><?php echo $form_password->textField($oModel, 'conf_password', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td></td>
+			<td>
+				<?php echo CHtml::submitButton('Update', array(
+					'id' => 'btn_profile_password', 
+					'name' => 'submit',
+				));?>
+				<?php echo CHtml::resetButton();?>
+				<input type="button" class="close-email" value="Cancel" />
+			</td>
+			</tr>
+			</table>
+			<div id="email_error"></div>
+		<?php $this->endWidget(); ?>
+	<!--
 		<form id="profile_password_form" class="fg_form" data-title="Change Password">
 			<table>
 			<tr>
@@ -62,8 +97,41 @@ $email = $user->email ? $user->email : '(no email provided)';
 			</table>
 			<div id="password_error"></div>
 		</form>
+		-->
 	</div>
 	<div class="profile-email">
+		<?php $form_email = $this->beginWidget('CActiveForm', array(
+			'id' => 'profile_email_form',
+			'action' => 'javascript:void(0)',
+			'class' => 'fg_form',
+			'data-title' => 'Change Email',
+		));?>
+			<?php echo $form_email->errorSummary($oModel); ?>
+			<table>
+			<tr>
+			<td class="right"><?php echo $form_email->labelEx($oModel, 'password', array('label' => 'Current Password'));?></td>
+			<td><?php echo $form_email->passwordField($oModel, 'password', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td class="right"><?php echo $form_email->labelEx($oModel, 'email', array('label' => 'New Email'));?></td>
+			<td><?php echo $form_email->textField($oModel, 'email', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td class="right"><?php echo $form_email->labelEx($oModel, 'conf_email');?></td>
+			<td><?php echo $form_email->textField($oModel, 'conf_email', array('class' => 'user-input'));?></td>
+			</tr>
+			<tr>
+			<td></td>
+			<td>
+				<?php echo CHtml::submitButton('Update', array('id' => 'btn_profile_email', 'name' => 'submit'));?>
+				<?php echo CHtml::resetButton();?>
+				<input type="button" class="close-email" value="Cancel" />
+			</td>
+			</tr>
+			</table>
+			<div id="email_error"></div>
+		<?php $this->endWidget(); ?>
+			<!--
 		<form id="profile_email_form" class="fg_form" data-title="Change Email">
 			<table>
 			<tr>
@@ -89,6 +157,7 @@ $email = $user->email ? $user->email : '(no email provided)';
 			</table>
 			<div id="email_error"></div>
 		</form>
+		-->
 	</div>
 
 </div>
