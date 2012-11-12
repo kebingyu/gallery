@@ -50,7 +50,9 @@ return array(
 		'user'=>array(
 			'class' => 'WebUser',
 			// enable cookie-based authentication
-			'allowAutoLogin'=>true,
+			'allowAutoLogin' => true,
+			// default login page
+			'loginUrl' => array('site/index'),
 		),
 		'session' => array (
 			'sessionName' => 'Zhou_Gallery',

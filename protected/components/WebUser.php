@@ -12,7 +12,7 @@ class WebUser extends CWebUser
 		$oModel->last_login_time = time();
 		$oModel->last_login_ip = $_SERVER['REMOTE_ADDR'];
 		$oModel->save();
-		// display login info 
+		// display user info 
 		Yii::app()->user->setFlash('display_login', true);
 		parent::afterLogin($fromCookie);
 	}

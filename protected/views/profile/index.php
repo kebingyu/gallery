@@ -13,7 +13,10 @@ $email = $user->email ? $user->email : '(no email provided)';
 			<table>
 			<tr>
 				<td class="right"><label>Username:</label></td>
-				<td class="info"><?php echo $currentUser;?><a class="toggle-password" href="javascript:void(0)">&nbsp;change password?</a></td>
+				<td class="info">
+					<?php echo $currentUser;?>
+					<a class="toggle-password" href="javascript:void(0)">&nbsp;change password?</a>
+				</td>
 			</tr>
 			<tr>
 				<td class="right"><label>Create Time:</label></td>
@@ -25,7 +28,10 @@ $email = $user->email ? $user->email : '(no email provided)';
 			</tr>
 			<tr>
 				<td class="right"><label for="email">Email:</label></td>
-				<td class="info"><span class="user-email"><?php echo $email;?></span><a class="toggle-email" href="javascript:void(0)">&nbsp;change email?</a></td>
+				<td class="info">
+					<span class="user-email"><?php echo $email;?></span>
+					<a class="toggle-email" href="javascript:void(0)">&nbsp;change email?</a>
+				</td>
 			</tr>
 			</table>
 		</form>

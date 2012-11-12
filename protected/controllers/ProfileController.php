@@ -9,6 +9,21 @@ class ProfileController extends Controller
 
 	public $section = 'profile';
 
+	public function filters() {
+		return array(
+			'accessControl',
+		);
+	}
+
+	public function accessRules() {
+		return array(
+			array('deny',
+				'actions' => array('index', 'update'),
+				'users'   => array('?'),
+			),
+		);
+	}
+
 	public function actionIndex() {
 		$this->pageTitle = 'User Profile';
 		Yii::app()->clientScript->registerCssFile('/css/formly.css');
