@@ -47,6 +47,8 @@ class UserModel extends CActiveRecord
 		return array(
 			array('username, password, new_password, email', 'length', 'max' => 128),
 			array('email, conf_email', 'email'),
+			// purify inputs
+			array('username, password, new_password', 'filter', 'filter' => array($this, 'purify')), 
 			// register scenario
 			array('username, password, conf_password, pcode', 'required', 'on' => 'register'),
 			array('password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'register'),
@@ -103,6 +105,18 @@ class UserModel extends CActiveRecord
 			$this->create_time = time();
 		}
 		return parent::beforeSave();
+	}
+
+	public function purify($value) 
+	{
+		$p = new CHtmlPurifier();
+		$p->options = array(
+			'URI.AllowedSchemes' => array(
+				'http' => true,
+				'https' => true,
+			),
+		);
+		return $p->purify($value);		
 	}
 
 	/**

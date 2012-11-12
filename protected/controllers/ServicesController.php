@@ -8,9 +8,6 @@ class ServicesController extends Controller
 	public function actions()
 	{
 		return array(
-			'page'=>array(
-				'class'=>'CViewAction',
-			),
 		);
 	}
 

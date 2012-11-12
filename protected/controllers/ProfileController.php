@@ -47,6 +47,8 @@ class ProfileController extends Controller
 						$oModel->password = $oModel->encrypt($oModel->new_password);
 					}
 					$oModel->save();
+					$data['stat'] = 'success';
+					$data['email'] = $oModel->email;
 				} else {
 					$data['stat'] = 'fail';
 					$data['error'] = array($oIdentity->errorMessage);

@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Gallery',
+	'name' => 'Gallery',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -19,7 +19,7 @@ return array(
 		'application.components.widgets.*'
 	),
 
-	//'defaultController'=>'post',
+	//'defaultController' => 'post',
 
 	// application components
 	'components'=>array(
@@ -68,28 +68,29 @@ return array(
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction' => 'site/error',
 		),
 		'urlManager'=>array(
-			'urlFormat'=>'path',
+			'urlFormat' => 'path',
 			'rules'=>array(
-				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
-				'<action:\w*>' => 'site/<action>',
+				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+				'<controller:\w+>' => '<controller>/index',
+				'' => 'site/index',
 			),
 			'useStrictParsing' => true,
 			'showScriptName' => false,
 		),
 		'log'=>array(
-			'class'=>'CLogRouter',
+			'class' => 'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'class' => 'CFileLogRoute',
+					'levels' => 'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
 				array(
-					'class'=>'CWebLogRoute',
+					'class' => 'CWebLogRoute',
 				),
 				 */
 			),
