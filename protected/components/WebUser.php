@@ -10,7 +10,9 @@ class WebUser extends CWebUser
 
 	protected function afterLogin($fromCookie)
 	{
-		$oModel = UserModel::model()->findByPK($this->getId());
+		$oModel = UserModel::model()->find('id=?', array(
+			$this->getId(),
+		));
 		$oModel->last_login_time = time();
 		$oModel->last_login_ip = $_SERVER['REMOTE_ADDR'];
 		$oModel->save();
@@ -21,7 +23,9 @@ class WebUser extends CWebUser
 
 	protected function beforeLogout()
 	{
-		$oModel = UserModel::model()->findByPK($this->getId());
+		$oModel = UserModel::model()->find('id=?', array(
+			$this->getId(),
+		));
 		$oModel->last_logout_time = time();
 		$oModel->save();
 		return parent::beforeLogout();
