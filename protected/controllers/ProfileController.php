@@ -46,9 +46,13 @@ class ProfileController extends Controller
 					if (Yii::app()->request->getQuery('cate') == 'password') {
 						$oModel->password = $oModel->encrypt($oModel->new_password);
 					}
-					$oModel->save();
-					$data['stat'] = 'success';
-					$data['email'] = $oModel->email;
+					if ($oModel->save()) {
+						$data['stat'] = 'success';
+						$data['email'] = $oModel->email;
+					} else {
+						$data['stat'] = 'error';
+						$data['error'] = array($oModel->getErrors());
+					}
 				} else {
 					$data['stat'] = 'fail';
 					$data['error'] = array($oIdentity->errorMessage);

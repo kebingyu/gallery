@@ -47,11 +47,14 @@ class ServicesController extends Controller
 			$oModel->attributes = $_POST['UserModel'];
 			if($oModel->validate())
 			{
-				$oModel->save();
-				$oIdentity = new UserIdentity($oModel->username, $oModel->password);
-				$oIdentity->setId($oModel->id);
-				Yii::app()->user->login($oIdentity);
-				$user['register'] = 1;
+				if ($oModel->save()) {
+					$oIdentity = new UserIdentity($oModel->username, $oModel->password);
+					$oIdentity->setId($oModel->id);
+					Yii::app()->user->login($oIdentity);
+					$user['register'] = 1;
+				} else {
+					$user['register'] = 0;
+				}
 			} else {
 				$user['error'] = $oModel->getErrors();
 				$user['register'] = 0;
