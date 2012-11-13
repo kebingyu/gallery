@@ -101,10 +101,10 @@ return array(
 	'params' => array(
 		'environment' => 'dev',
 		// this is used in contact page
-		'adminEmail' => 'kyu@internetbrands.com',
-		'emails' => array('kyu@internetbrands.com'),
-		'reCaptchaPub' => '6LdtdtYSAAAAADK0a0yTIckKUBaz0TtFG2INoBzq',
-		'reCaptchaPriv' => '6LdtdtYSAAAAAMj42UA0piZpICMh7C8LGCTucznO',
+		'adminEmail' => '',
+		'emails' => array(''),
+		'reCaptchaPub' => '',
+		'reCaptchaPriv' => '',
 	),
 	'controllerMap' => array(
 		'min' => array(
