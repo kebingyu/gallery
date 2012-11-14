@@ -143,11 +143,11 @@ $(document).ready(function() {
 		$('.profile-email').fadeOut();
 	});
 
-	// update email
+	// reset email
 	$('#btn_profile_email').click(function() {
 		$.ajax({
 			type : 'POST',
-			url : '/profile/update?cate=email',
+			url : '/profile/reset?cate=email',
 			data : $('#profile_email_form').serialize(),
 			success : function(data) {
 				if (data.stat == 'success') {
@@ -175,11 +175,11 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// update password
+	// reset password
 	$('#btn_profile_password').click(function() {
 		$.ajax({
 			type : 'POST',
-			url : '/profile/update?cate=password',
+			url : '/profile/reset?cate=password',
 			data : $('#profile_password_form').serialize(),
 			success : function(data) {
 				if (data.stat == 'success') {

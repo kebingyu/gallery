@@ -28,19 +28,24 @@ class ProfileController extends Controller
 		$oModel = UserModel::model()->find('id=?', array(
 			Yii::app()->user->id,
 		));
-		$oModel->setScenario('reset');
 		$this->render('index', array(
 			'user' => $oModel,
 		));
 	}
 	
-	public function actionUpdate() {
-		// collect user input data
+	/**
+	 * actionReset: reset password/email 
+	 * 
+	 * @access public
+	 * @return json
+	 */
+	public function actionReset() {
 		if(isset($_POST['UserModel']))
 		{
 			$oModel = UserModel::model()->find('id=?', array(
 				Yii::app()->user->id,
 			));
+			$oModel->setScenario('reset');
 			$oModel->attributes = $_POST['UserModel'];
 			if ($oModel->validate())
 			{
