@@ -73,33 +73,6 @@ $email = $user->email ? $user->email : '(no email provided)';
 			</table>
 			<div id="email_error"></div>
 		<?php $this->endWidget(); ?>
-	<!--
-		<form id="profile_password_form" class="fg_form" data-title="Change Password">
-			<table>
-			<tr>
-				<td class="right"><label for="password_current">Current Password</label></td>
-				<td><input class="user-input" type="password" name="password_current" value="" /></td>
-			</tr>
-			<tr>
-				<td class="right"><label for="password_new">New Password</label></td>
-				<td><input class="user-input" type="password" name="password_new" value="" /></td>
-			</tr>
-			<tr>
-				<td class="right"><label for="password_confirm">Confirm Password</label></td>
-				<td><input class="user-input" type="password" name="password_confirm" value="" /></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="submit" name="submit" value="Update" id="btn_profile_password" />
-					<input type="reset" value="Reset" />
-					<input type="button" class="close-password" value="Cancel" />
-				</td>
-			</tr>
-			</table>
-			<div id="password_error"></div>
-		</form>
-		-->
 	</div>
 	<div class="profile-email">
 		<?php $form_email = $this->beginWidget('CActiveForm', array(
@@ -135,33 +108,6 @@ $email = $user->email ? $user->email : '(no email provided)';
 			</table>
 			<div id="email_error"></div>
 		<?php $this->endWidget(); ?>
-			<!--
-		<form id="profile_email_form" class="fg_form" data-title="Change Email">
-			<table>
-			<tr>
-				<td class="right"><label for="password_current">Current Password</label></td>
-				<td><input class="user-input" type="password" name="password_current" value="" /></td>
-			</tr>
-			<tr>
-				<td class="right"><label for="email_new">New Email</label></td>
-				<td><input class="user-input" type="text" name="email_new" value="" /></td>
-			</tr>
-			<tr>
-				<td class="right"><label for="email_confirm">Confirm Email</label></td>
-				<td><input class="user-input" type="text" name="email_confirm" value="" /></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td>
-					<input type="submit" name="submit" value="Update" id="btn_profile_email" />
-					<input type="reset" value="Reset" />
-					<input type="button" class="close-email" value="Cancel" />
-				</td>
-			</tr>
-			</table>
-			<div id="email_error"></div>
-		</form>
-		-->
 	</div>
 
 </div>

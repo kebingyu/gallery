@@ -20,12 +20,15 @@ class ProfileController extends Controller
 
 	public function actionIndex() {
 		$this->pageTitle = 'User Profile';
+		Yii::app()->clientScript->registerPackage('formly');
+		/*
 		Yii::app()->clientScript->registerCssFile('/css/formly.css');
 		Yii::app()->clientScript->registerScriptFile('/js/formly.js');
+		 */
 		$oModel = UserModel::model()->find('id=?', array(
 			Yii::app()->user->id,
 		));
-		$oModel->setScenario('update');
+		$oModel->setScenario('reset');
 		$this->render('index', array(
 			'user' => $oModel,
 		));
@@ -45,6 +48,8 @@ class ProfileController extends Controller
 				if ($oIdentity->authenticate()) {
 					if (Yii::app()->request->getQuery('cate') == 'password') {
 						$oModel->password = $oModel->encrypt($oModel->new_password);
+					} else if (Yii::app()->request->getQuery('cate') == 'email') {
+						$oModel->email = $oModel->new_email;
 					}
 					if ($oModel->save()) {
 						$data['stat'] = 'success';

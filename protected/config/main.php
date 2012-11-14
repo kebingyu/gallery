@@ -46,6 +46,27 @@ return array(
 			//'minScriptLmCache' => 700,
 			'minScriptLmCache' => false,
 			'minScriptUrlMap' => array(),
+			'packages' => array(
+				'formly'=>array(
+					'baseUrl'=> '/',   
+					'css'    => array( 'css/formly.css' ),
+					'js'     => array( 'js/formly.js' ),
+				),
+				'chosen'=>array(
+					'basePath'=> '/', 
+					'css'    => array( 'css/chosen.css' ),
+					'js'     => array( 'js/chosen.jquery.min.js' ),
+				),
+				'upload'=>array(
+					'basePath'=> '/', 
+					'css'     => array( 'css/upload/jquery.fileupload-ui.css' ),
+					'css'    => array( 'css/upload/upload_layout.css' ),
+				),
+				'tabify'=>array(
+					'basePath'=> '/', 
+					'js'     => array( 'js/jquery.tabify.js' ),
+				),
+			),
 		),
 		'user'=>array(
 			'class' => 'WebUser',
@@ -100,11 +121,11 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params' => array(
 		'environment' => 'dev',
-		// this is used in contact page
 		'adminEmail' => '',
-		'emails' => array(''),
 		'reCaptchaPub' => '',
 		'reCaptchaPriv' => '',
+		'BaseUrl' => 'http://yii.kyutest.com',
+		'RootDir' => '/var/www/sites/yii/gallery',
 	),
 	'controllerMap' => array(
 		'min' => array(

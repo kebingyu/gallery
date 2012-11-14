@@ -35,16 +35,16 @@ CREATE TABLE IF NOT EXISTS image (
 	is_public tinyint(1) NOT NULL DEFAULT 1,
     user_id int(10) unsigned NOT NULL,
     album_id int(10) unsigned NOT NULL,
-    PRIMARY KEY (id, name, user_id, album_id)
+    PRIMARY KEY (id, user_id, album_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS comment (
 	id int(10) unsigned NOT NULL auto_increment,
 	body varchar(255) NOT NULL,
-	image_name varchar(40) NOT NULL, 
     create_time int(10) NULL,
     user_id int(10) unsigned NOT NULL,
-    PRIMARY KEY (id, image_name, user_id)
+    image_id int(10) unsigned NOT NULL,
+    PRIMARY KEY (id, image_id, user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS info (
