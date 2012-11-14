@@ -29,13 +29,6 @@ class Controller extends CController
 
 	public function init()
 	{
-		Yii::app()->clientScript->registerCssFile('/css/zebra_dialog.css');
-		Yii::app()->clientScript->registerCssFile('/css/all.css');
-
-		Yii::app()->clientScript->registerScriptFile('/js/jquery-1.8.1.min.js');
-		Yii::app()->clientScript->registerScriptFile('/js/jquery-ui-1.8.23.custom.min.js');
-		Yii::app()->clientScript->registerScriptFile('/js/vendors/jquery.yiiactiveform.js');
-		Yii::app()->clientScript->registerScriptFile('/js/zebra_dialog.js');
-		Yii::app()->clientScript->registerScriptFile('/js/all.js');
+		Yii::app()->clientScript->registerPackage('main');
 	}
 }

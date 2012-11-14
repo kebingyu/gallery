@@ -39,6 +39,7 @@ return array(
 		),
 			 */
 		'clientScript' => array(
+			/*
 			'class' => 'ext.minScript.components.ExtMinScript',
 			'minScriptControllerId' => 'min',
 			'minScriptCacheId' => 'cache',
@@ -46,7 +47,22 @@ return array(
 			//'minScriptLmCache' => 700,
 			'minScriptLmCache' => false,
 			'minScriptUrlMap' => array(),
+			 */
 			'packages' => array(
+				'main' => array(
+					'baseUrl' => '/',
+					'css' => array(
+						'css/zebra_dialog.css', 
+						'css/all.css',
+					),
+					'js' => array(
+						'js/jquery-1.8.1.min.js',
+						'js/jquery-ui-1.8.23.custom.min.js',
+						'js/vendors/jquery.yiiactiveform.js',
+						'js/zebra_dialog.js',
+						'js/all.js',
+					),
+				),
 				'formly'=>array(
 					'baseUrl'=> '/',   
 					'css'    => array( 'css/formly.css' ),
@@ -59,8 +75,10 @@ return array(
 				),
 				'upload'=>array(
 					'basePath'=> '/', 
-					'css'     => array( 'css/upload/jquery.fileupload-ui.css' ),
-					'css'    => array( 'css/upload/upload_layout.css' ),
+					'css'     => array(
+						'css/upload/jquery.fileupload-ui.css',
+						'css/upload/upload_layout.css'
+					),
 				),
 				'tabify'=>array(
 					'basePath'=> '/', 

@@ -3,6 +3,11 @@ class ProfileController extends Controller
 {
 	public $section = 'profile';
 
+	public function init() {
+		parent::init();
+		Yii::app()->clientScript->registerPackage('formly');
+	}
+
 	public function filters() {
 		return array(
 			'accessControl',
@@ -20,11 +25,6 @@ class ProfileController extends Controller
 
 	public function actionIndex() {
 		$this->pageTitle = 'User Profile';
-		Yii::app()->clientScript->registerPackage('formly');
-		/*
-		Yii::app()->clientScript->registerCssFile('/css/formly.css');
-		Yii::app()->clientScript->registerScriptFile('/js/formly.js');
-		 */
 		$oModel = UserModel::model()->find('id=?', array(
 			Yii::app()->user->id,
 		));

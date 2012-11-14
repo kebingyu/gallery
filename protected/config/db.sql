@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS user (
 	username varchar(255) NOT NULL,
 	password varchar(255) NOT NULL,
 	email varchar(128) NULL,
-	salt varchar(128) NOT NULL,
 	create_time int(10) NOT NULL,
 	last_login_time int(10) NULL,
 	last_logout_time int(10) NULL,
