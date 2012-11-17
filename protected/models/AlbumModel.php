@@ -36,6 +36,7 @@ class AlbumModel extends CActiveRecord
 	{
 		return array(
 			array('name, description, is_public, user_id', 'required'),
+			array('name', 'isExisting', 'on' => 'create'),
 			array('name, description, is_public, user_id', 'filter', 'filter' => array($this, 'purify')), 
 			array('create_time', 'safe'),
 		);
@@ -58,6 +59,8 @@ class AlbumModel extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'name' => 'Album Name',
+			'description' => 'Album Description',
 			'is_public' => 'Is Public',
 		);
 	}
@@ -70,7 +73,7 @@ class AlbumModel extends CActiveRecord
 		return parent::beforeSave();
 	}
 
-	public function purify($value) 
+	private function purify($value) 
 	{
 		$p = new CHtmlPurifier();
 		$p->options = array(
@@ -80,5 +83,15 @@ class AlbumModel extends CActiveRecord
 			),
 		);
 		return $p->purify($value);		
+	}
+
+	public function isExisting($strName) {
+		$criteria = new CDbCriteria;  
+		$criteria->addCondition(array(
+			'user_id='.Yii::app()->user->id,
+			"name='".$strName."'",
+		));
+		$objModel = AlbumModel::model()->find($criteria);
+		return $objModel ? true : false;
 	}
 }

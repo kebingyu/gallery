@@ -3,14 +3,14 @@
         <h1>Upload your photos in two steps</h1>
     </div>
     <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="/services/upload/upload" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="/upload/upload" method="POST" enctype="multipart/form-data">
 		<div class="album-select">
 			<p><strong>Step 1:</strong> Select from the existing albums or <a href="#tab_create">creat a new album</a> to upload photos. You can select multiple albums.</p> 
 			<select class="chzn-select" data-placeholder="Choose an album" name="saveto_album_name">
 				<?php
-				$aList = $this->get('album_list');
-				foreach ($aList as $value) {
-					echo "<option value=\"{$value['album_name']}\" data-id=\"{$value['album_id']}\" data-public=\"{$value['is_public']}\">{$value['album_name']}</option>\n";
+				foreach ($arrAlbumList as $objAlbum) {
+					echo '<option value="'.$objAlbum->name.'" data-id="'.$objAlbum->id
+						.'" data-public="'.$objAlbum->is_public.'">'.$objAlbum->name."</option>\n";
 				}
 				?>
 			</select>
@@ -66,6 +66,7 @@
 	<!-- Create new album tab -->
 	<div id="tab_create">
 		<div>
+		<!--
 			<form id="create_album_form" class="fg_form" data-title="Create a new album">
 				<div class="album_input">
 					<table>
@@ -85,6 +86,51 @@
 				</div>
 				<div id="cg_error"></div>
 			</form>
+			-->
+			<?php $form_password = $this->beginWidget('CActiveForm', array(
+				'id' => 'create_album_form',
+				'action' => 'javascript:void(0)',
+				'htmlOptions' => array(
+					'class' => 'fg_form',
+					'data-title' => 'Create a new album',
+				),
+			));?>
+				<div class="album_input">
+					<table>
+					<tr>
+					<td class="right"><?php echo $form_album->labelEx($album, 'name');?></td>
+					<td><?php echo $form_album->textField($album, 'name', array(
+						'class' => 'input_text', 
+						'size' => '30',
+						'title' => 'Give your album a name',
+					));?></td>
+					</tr>
+					<tr>
+					<td class="right"><?php echo $form_album->labelEx($album, 'description');?></td>
+					<td><?php echo $form_album->textArea($album, 'description', array(
+						'class' => 'input_text double',
+						'size' => '30',
+						'title' => 'Write something about this album',
+					));?></td>
+					</tr>
+					<tr>
+					<td class="right"><?php echo $form_album->checkBox($album, 'is_public', array(
+						'name' => 'make-pub',
+						'value' => 'on',
+						'checked' => 'checked',
+						'title' => 'Public or personal album?',
+					));?></td>
+					<td><?php echo CHtml::submitButton('Create', array(
+							'id' => 'btn_create_album', 
+							'name' => 'submit',
+						));?>
+						<?php echo CHtml::resetButton();?>
+					</td>
+					</tr>
+					</table>
+				</div>
+				<div id="cg_error"></div>
+			<?php $this->endWidget(); ?>
 		</div>
 	</div>
     <br>
