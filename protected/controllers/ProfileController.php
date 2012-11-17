@@ -45,7 +45,7 @@ class ProfileController extends Controller
 			$oModel = UserModel::model()->find('id=?', array(
 				Yii::app()->user->id,
 			));
-			$oModel->setScenario('reset');
+			$oModel->setScenario('reset-'.Yii::app()->request->getQuery('cate'));
 			$oModel->attributes = $_POST['UserModel'];
 			if ($oModel->validate())
 			{
@@ -54,14 +54,14 @@ class ProfileController extends Controller
 					if (Yii::app()->request->getQuery('cate') == 'password') {
 						$oModel->password = $oModel->encrypt($oModel->new_password);
 					} else if (Yii::app()->request->getQuery('cate') == 'email') {
-						$oModel->email = $oModel->new_email;
+						$oModel->password = $oModel->encrypt($oModel->password);
 					}
 					if ($oModel->save()) {
 						$data['stat'] = 'success';
 						$data['email'] = $oModel->email;
 					} else {
 						$data['stat'] = 'error';
-						$data['error'] = array($oModel->getErrors());
+						$data['error'] = $oModel->getErrors();
 					}
 				} else {
 					$data['stat'] = 'fail';
@@ -69,7 +69,7 @@ class ProfileController extends Controller
 				}
 			} else {
 				$data['stat'] = 'fail';
-				$data['error'] = array($oModel->getErrors());
+				$data['error'] = $oModel->getErrors();
 			}
 			echo json_encode($data);
 		}

@@ -66,12 +66,11 @@ $email = $user->email ? $user->email : '(no email provided)';
 					'id' => 'btn_profile_password', 
 					'name' => 'submit',
 				));?>
-				<?php echo CHtml::resetButton();?>
 				<input type="button" class="close-password" value="Cancel" />
 			</td>
 			</tr>
 			</table>
-			<div id="email_error"></div>
+			<div id="password_error"></div>
 		<?php $this->endWidget(); ?>
 	</div>
 	<div class="profile-email">
@@ -90,8 +89,8 @@ $email = $user->email ? $user->email : '(no email provided)';
 			<td><?php echo $form_email->passwordField($user, 'password', array('class' => 'user-input', 'value' => ''));?></td>
 			</tr>
 			<tr>
-			<td class="right"><?php echo $form_email->labelEx($user, 'new_email');?></td>
-			<td><?php echo $form_email->textField($user, 'new_email', array('class' => 'user-input'));?></td>
+			<td class="right"><?php echo $form_email->labelEx($user, 'email', array('label' => 'New Email'));?></td>
+			<td><?php echo $form_email->textField($user, 'email', array('class' => 'user-input', 'value' => ''));?></td>
 			</tr>
 			<tr>
 			<td class="right"><?php echo $form_email->labelEx($user, 'conf_email');?></td>
@@ -101,7 +100,6 @@ $email = $user->email ? $user->email : '(no email provided)';
 			<td></td>
 			<td>
 				<?php echo CHtml::submitButton('Update', array('id' => 'btn_profile_email', 'name' => 'submit'));?>
-				<?php echo CHtml::resetButton();?>
 				<input type="button" class="close-email" value="Cancel" />
 			</td>
 			</tr>
@@ -157,11 +155,11 @@ $(document).ready(function() {
 					});
 					zebra_center('email updated successfully', 2000);
 				} else {
-					zebra_corner('an error occured');
+					zebra_corner('Please check your inputs again');
 					var html = "";
 					if (data.error) {
 						for (var i in data.error) {
-							html += data.error[i] + '<br/>';
+							html += data.error[i] + '<br />';
 						}
 					}
 					$('#email_error').html(html);
@@ -188,11 +186,11 @@ $(document).ready(function() {
 					});
 					zebra_center('password updated successfully', 2000);
 				} else {
-					zebra_corner('an error occured');
+					zebra_corner('Please check your inputs again');
 					var html = "";
 					if (data.error) {
 						for (var i in data.error) {
-							html += data.error[i] + '<br/>';
+							html += data.error[i] + '<br />';
 						}
 					}
 					$('#password_error').html(html);

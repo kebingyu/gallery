@@ -19,7 +19,6 @@ class UserModel extends CActiveRecord
 	public $conf_password;
 	public $new_password;
 	public $conf_email;
-	public $new_email;
 	public $pcode;
 
 	/**
@@ -47,10 +46,10 @@ class UserModel extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that will receive user inputs.
 		return array(
 			array('username, password, new_password, email', 'length', 'max' => 128),
-			array('email, new_email, conf_email', 'email'),
+			array('email, conf_email', 'email'),
 			array('create_time, last_login_time, last_logout_time, last_login_ip', 'safe'),
 			// purify inputs
-			array('username, password, new_password', 'filter', 'filter' => array($this, 'purify')), 
+			array('username, password, new_password, email, conf_email', 'filter', 'filter' => array($this, 'purify')), 
 			// register scenario
 			array('username, password, conf_password, pcode', 'required', 'on' => 'register'),
 			array('password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'register'),
@@ -61,11 +60,13 @@ class UserModel extends CActiveRecord
 			// login scenario
 			array('username, password', 'required', 'on' => 'login'),
 			array('username', 'exist', 'on' => 'login'),
-			// reset scenario (reset password and email)
-			array('password, new_password, conf_password, new_email, conf_email', 'required', 'on' => 'reset'),
-			array('new_email', 'compare', 'compareAttribute' => 'conf_email', 'on' => 'reset'),
-			array('new_password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'reset'),
-			array('new_email', 'unique', 'on' => 'reset'),
+			// reset password scenario
+			array('password, new_password, conf_password', 'required', 'on' => 'reset-password'),
+			array('new_password', 'compare', 'compareAttribute' => 'conf_password', 'on' => 'reset-password'),
+			// reset email scenario
+			array('password, email, conf_email', 'required', 'on' => 'reset-email'),
+			array('email', 'compare', 'compareAttribute' => 'conf_email', 'on' => 'reset-email'),
+			array('email', 'unique', 'on' => 'reset'),
 		);
 	}
 
@@ -91,7 +92,6 @@ class UserModel extends CActiveRecord
 			'conf_password' => 'Confirm Password',
 			'new_password'  => 'New Password',
 			'conf_email'    => 'Confirm Email',
-			'new_email'     => 'New Email',
 			'pcode'         => 'Promo Code',
 		);
 	}
@@ -130,7 +130,7 @@ class UserModel extends CActiveRecord
 	 * @access protected
 	 * @return string
 	 */
-	private function encrypt($value)
+	public function encrypt($value)
 	{
 		$oBcrypt = new Bcrypt();
 		return $oBcrypt->hash($value);
