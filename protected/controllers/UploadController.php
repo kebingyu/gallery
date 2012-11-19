@@ -8,12 +8,8 @@ class UploadController extends Controller
 		Yii::app()->clientScript->registerPackage('chosen');
 		Yii::app()->clientScript->registerPackage('formly');
 		Yii::app()->clientScript->registerPackage('tabify');
-		// get album list
-		$arrAlbumList = AlbumModel::model()->find('user_id=?', array(
-			Yii::app()->user->id,
-		));
 		$this->render('index', array(
-			'arrAlbumList' => $arrAlbumList,
+			'arrAlbumList' => AlbumModel::model()->getAlbumList('private'),
 		));
 	}
 

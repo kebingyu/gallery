@@ -274,7 +274,7 @@ function createAlbum() {
 				$('.chzn-select').append('<option value="' + data.name + '" selected="selected" data-id="' + data.id + '" data-public="' + data.is_public + '">' + data.name + '</option>');
 				$('.chzn-select').trigger("liszt:updated");
 				updateHiddenInfo();
-				window.location.href = '/services/upload#tab_upload';
+				window.location.href = '/upload/index#tab_upload';
 			} else {
 				var html = "";
 				if (data.error) {

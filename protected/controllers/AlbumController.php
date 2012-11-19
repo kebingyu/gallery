@@ -1,35 +1,58 @@
 <?php
 class AlbumController extends Controller 
 {
-	const NAME_EMPTY_ERROR = 1;
-	const DESC_EMPTY_ERROR = 2;
-	const NAME_EXIST_ERROR = 4;
+	public $section = 'gallery';
 
-	public function index() {
+	public function init() {
+		parent::init();
+		//Yii::app()->clientScript->registerPackage('formly');
+	}
+
+	public function filters() {
+		return array(
+			'accessControl',
+		);
+	}
+
+	// TODO: not allow to view private album
+	public function accessRules() {
+		return array(
+			array('deny',
+				'actions' => array('index', 'add'),
+				'users'   => array('?'),
+			),
+		);
+	}
+
+	public function actionIndex() {
 		exit;
 	}
 
 	/**
 	 * showGallery 
-	 * 1) /album/showgallery/private: display all public/private albums belongs to current user
-	 * 2) /album/showgallery/[anything_else]: display all public albums
+	 * 1) /album/showgallery?cate=private         : display all public/private albums belongs to current user
+	 * 2) /album/showgallery?cate=[anything_else] : display all public albums
 	 * 
-	 * @param string $sCate 
 	 * @access public
 	 * @return void
 	 */
-	public function showGallery($sCate = '') {
-		$oView = $this->getRenderEngine();
-		$oView->addCSSInclude('bootstrap.icon-large.css');
-		$oView->set('cate', $sCate);
-		switch ($sCate) {
+	public function actionShowGallery() {
+		Yii::app()->clientScript->registerCssFile('/css/bootstrap.icon-large.css');
+		switch (Yii::app()->request->getQuery('cate', 'public')) {
 			case 'private': 
-				$oView->PageTitle('My Gallery');
+				$this->pageTitle = 'My Gallery';
+				$strCate = 'private';
+				$strSubtitle = 'Personal gallery: stores only your albums'; 
 				break;
 			default:
-				$oView->PageTitle('Public Gallery');
+				$this->pageTitle = 'Public Gallery';
+				$strCate = 'public';
+				$strSubtitle = 'Public gallery: collects all open albums';
 		}
-		$oView->render('showgallery');
+		$this->render('showgallery', array(
+			'cate' => $strCate,
+			'subtitle' => $strSubtitle,
+		));
 	}
 
 	/**
@@ -118,66 +141,58 @@ class AlbumController extends Controller
 	 * @return json
 	 */
 	public function actionAdd() {
-		if (empty($_POST)) {
-            throw new ControllerException('Access denied!', ControllerException::ACCESS_DENIED);
-        } 
-        $oModel = new AlbumModel();
-        $oFDS = new XSSHandler();
-        $oModel->_sAlbumName = $oFDS->FilterXSS_SQL(trim($_POST['album_name']));
-        $oModel->_sAlbumDesc = $oFDS->FilterXSS_SQL(trim($_POST['album_desc']));
-		$oModel->_nIsPublic = isset($_POST['make-pub']) && $_POST['make-pub'] === 'on' ? 1 : 0;
-        $oModel->_nCreateTime = time();
-        
-        $numErr = 0;
-        if ($oModel->_sAlbumName === '') {
-            $numErr |= self::NAME_EMPTY_ERROR;
-        }
-        if ($oModel->_sAlbumDesc === '') {
-            $numErr |= self::DESC_EMPTY_ERROR;
-        }
-		if ($oModel->isExisting()) {
-            $numErr |= self::NAME_EXIST_ERROR;
-		}
-		if ($numErr == 0) {
-			$temp = $oModel->add();
-			if ($temp === false) {
-				$data['success'] = 0;
+		$oModel = new AlbumModel();
+		if(isset($_POST['AlbumModel']))
+		{
+			$oModel->attributes = $_POST['AlbumModel'];
+			if($oModel->validate())
+			{
+				$oModel->user_id = Yii::app()->user->id;
+				if ($oModel->save()) {
+					$data['success'] = 1;
+					$data['name'] = $oModel->name;
+					$data['is_public'] = $oModel->is_public;
+					$data['id'] = $oModel->id;
+					// add info table
+					/*
+					$nInsertID = $oModel->getAlbumID();
+					$oInfoModel = new InfoModel();
+					$oInfoModel->_sCategory = 'album';
+					$oInfoModel->_sContent = $data['name'];
+					$oInfoModel->_nAlbumID = $nInsertID;
+					$oInfoModel->_nIsPublic = $oModel->_nIsPublic;
+					$oInfoModel->add();
+					 */
+				} else {
+					$data['error'] = $oModel->getErrors();
+					$data['success'] = 0;
+				}
 			} else {
-				$data['success'] = 1;
-				$data['name'] = $oModel->_sAlbumName;
-				$data['is_public'] = $oModel->_nIsPublic;
-				// add info table
-				$nInsertID = $oModel->getAlbumID();
-				$oInfoModel = new InfoModel();
-				$oInfoModel->_sCategory = 'album';
-				$oInfoModel->_sContent = $data['name'];
-				$oInfoModel->_nAlbumID = $nInsertID;
-				$oInfoModel->_nIsPublic = $oModel->_nIsPublic;
-				$oInfoModel->add();
-				$data['id'] = $nInsertID;
+				$data['error'] = $oModel->getErrors();
+				$data['success'] = 0;
 			}
+			echo json_encode($data);
 		} else {
-			$aErrors = $this->getErrorsArray($numErr);
-			$data['success'] = 0;
-			$data['error'] = $aErrors;
+			$this->redirect(Yii::app()->homeUrl);
 		}
-		echo json_encode($data);
 	}
 
 	/**
 	 * getImage 
-	 * 1) /album/getimage/private: album/image infos for public/private albums belong to current user 
-	 * 2) /album/getimage/private/[album_id]: album/image infos for requested album belongs to current user
-	 * 3) /album/getimage/[anything_else]: album/image infos for public albums  
-	 * 4) /album/getimage/[anything_else]/[album_id]: album/image infos for requested album  
+	 * 1) /album/getimage/private                    : album/image infos for public/private albums belong to current user 
+	 * 2) /album/getimage/private/[album_id]         : album/image infos for requested album belongs to current user
+	 * 3) /album/getimage/[anything_else]            : album/image infos for public albums  
+	 * 4) /album/getimage/[anything_else]/[album_id] : album/image infos for requested album  
 	 * 
 	 * @param string $sCate 
 	 * @param number $nAlbumID 
 	 * @access public
 	 * @return json
 	 */
-	public function getImage($sCate = '', $nAlbumID = 0) {
+	public function actionGetImage() {
         $oModel = new AlbumModel();
+		$nAlbumID = Yii::app()->request->getQuery('id', 0);
+		$sCate = Yii::app()->request->getQuery('cate', 'public');
 		$oModel->_nAlbumID = $nAlbumID;
 		$infos = $oModel->getImageInAlbum($sCate);
 		if (empty($infos)) {
@@ -200,7 +215,7 @@ class AlbumController extends Controller
 	 * @access public
 	 * @return json
 	 */
-	public function update() {
+	public function actionUpdate() {
 		if (empty($_POST)) {
             throw new ControllerException('Access denied!', ControllerException::ACCESS_DENIED);
         } 
@@ -250,7 +265,7 @@ class AlbumController extends Controller
 	 * @access public
 	 * @return json
 	 */
-	public function delete() {
+	public function actionDelete() {
 		if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         	throw new ControllerException('Method not allowed', ControllerException::ACCESS_DENIED);
         }

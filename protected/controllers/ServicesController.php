@@ -30,6 +30,12 @@ class ServicesController extends Controller
 	    }
 	}
 
+	/**
+	 * actionRegister: register a new user 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function actionRegister()
 	{
 		$oModel = new UserModel('register');
@@ -65,6 +71,12 @@ class ServicesController extends Controller
 		}
 	}
 
+	/**
+	 * actionLogin: user log in 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function actionLogin()
 	{
 		// if it is ajax validation request

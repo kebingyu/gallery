@@ -35,9 +35,9 @@ class AlbumModel extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('name, description, is_public, user_id', 'required'),
+			array('name, description, is_public', 'required'),
 			array('name', 'isExisting', 'on' => 'create'),
-			array('name, description, is_public, user_id', 'filter', 'filter' => array($this, 'purify')), 
+			array('name, description, is_public', 'filter', 'filter' => array($this, 'purify')), 
 			array('create_time', 'safe'),
 		);
 	}
@@ -85,6 +85,14 @@ class AlbumModel extends CActiveRecord
 		return $p->purify($value);		
 	}
 
+	/**
+	 * isExisting: check if the given album name is already used by current user. 
+	 * NOTE: different users can have same album name.
+	 * 
+	 * @param mixed $strName 
+	 * @access public
+	 * @return void
+	 */
 	public function isExisting($strName) {
 		$criteria = new CDbCriteria;  
 		$criteria->addCondition(array(
@@ -94,4 +102,98 @@ class AlbumModel extends CActiveRecord
 		$objModel = AlbumModel::model()->find($criteria);
 		return $objModel ? true : false;
 	}
+
+	public function getImageInAlbum($strCate = 'public') {
+        $bPublic = $strCate === 'private' ? false : true;
+        $aResult = array();
+        if ($this->id === 0) {
+            // 1) retrieve album list (including empty album)
+            $aList = $this->getAlbumList($strCate);
+            $aResult['list'] = $aList;
+            // 2) retrieve image count for each album
+            $sQuery = "SELECT album.*, user.username, COUNT(*) AS image_count FROM image".
+                " JOIN image_album ON image.name = image_album.image_name AND image.user_id = image_album.user_id".
+                " JOIN album ON album.id = image_album.album_id AND album.user_id = image_album.user_id".
+                " JOIN user ON user.id = album.user_id";
+            $sQuery .= $bPublic ? " WHERE album.is_public = 1" : " WHERE image.user_id = {$this->_nUserID}";
+            $sQuery .= " GROUP BY album.id ORDER BY album.create_time";
+            $temp = $this->query($sQuery);
+            foreach ($temp as $value) {
+                $aResult['count'][] = array(
+                    'album_id' => $value['album']['id'],
+                    'album_name' => $value['album']['name'],
+                    'album_desc' => $value['album']['description'],
+                    'is_public' => $value['album']['is_public'],
+                    'author' => $value['user']['username'],
+                    'image_count' => $value['']['image_count'],
+                );
+            }
+            $temp = array();
+        }
+        // 3) retrieve image/album info
+        $sQuery = "SELECT album.*, image.* FROM album".
+            " JOIN image_album ON album.id = image_album.album_id AND album.user_id = image_album.user_id".
+            " JOIN image ON image.name = image_album.image_name AND image.user_id = image_album.user_id";
+        $sQuery .= $bPublic ? " WHERE album.is_public = 1" : " WHERE album.user_id = {$this->_nUserID}";
+        if ($this->_nAlbumID !== 0) {
+            $sQuery .= " AND album.id = {$this->_nAlbumID}";
+        }
+        $sQuery .= " ORDER BY album.create_time, image.create_time";
+        $temp = $this->query($sQuery);
+        foreach ($temp as $value) {
+            $aResult['image'][] = array(
+                'album_id' => $value['album']['id'],
+                'album_name' => $value['album']['name'],
+                'album_desc' => $value['album']['description'],
+                'album_create_time' => $value['album']['create_time'],
+                'image_name' => $value['image']['name'],
+                'image_desc' => $value['image']['description'],
+                'image_create_time' => $value['image']['create_time'],
+            );
+        }
+        return $aResult;
+    }
+	
+	/**
+     * getAlbumList
+     * 1) $strCate == 'public'  : retrieve list of all public albums (is_public = true)
+     * 2) $strCate == 'private' : retrieve list of all personal albums
+     *
+     * @param boolean $bPublic
+     * @access private
+     * @return mixed
+     */
+	public function getAlbumList($strCate = 'public') {
+		$criteria = new CDbCriteria;
+		//$criteria->select = array('id');
+		if ($strCate === 'private') {
+			$criteria->condition = 'album.user_id=:col_val'; 
+			$criteria->params = array(
+				':col_val' => Yii::app()->user->id,
+			);
+		} else {
+			$criteria->condition = 'album.is_public=:ocl_val'; 
+			$criteria->params = array(
+				':col_val' => 1,
+			);
+		}
+		$criteria->order = 'album.create_time DESC';
+		$arrAlbumList = AlbumModel::model()->with('user')->findAll($criteria);
+		/*
+		$temp = $this->query($sQuery);
+		$aResult = array();
+		foreach ($temp as $value) {
+			$aResult[] = array(
+				'album_id' => $value['album']['id'],
+				'album_name' => $value['album']['name'],
+				'album_desc' => $value['album']['description'],
+				'is_public' => $value['album']['is_public'],
+				'author' => $value['user']['username'],
+			);
+		}
+		return $aResult;
+		 */
+		return $arrAlbumList;
+	}
+	
 }
