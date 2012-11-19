@@ -17,7 +17,7 @@
 			<input type="hidden" class="select-album-pub" name="saveto_album_is_public" value="">
 			<input type="hidden" class="select-album-id" name="saveto_album_id" value="">
 		</div>
-		<p><strong>Step 2:</strong> Click 'Add files' to select multiple photos or just drag &amp; drop photos from your computer onto this page to start uploading photos. When you finish uploading, you can go to your <a href="/album/showgallery/private">personal gallery</a> or check out photos uploaed by others in the <a href="/album/showgallery/public/">public gallery.</a></p>
+		<p><strong>Step 2:</strong> Click 'Add files' to select multiple photos or just drag &amp; drop photos from your computer onto this page to start uploading photos. When you finish uploading, you can go to your <a href="/album/showgallery?cate=private">personal gallery</a> or check out photos uploaed by others in the <a href="/album/showgallery?cate=public/">public gallery.</a></p>
 		<ul class="mytabs">
 			<li class="active"><a href="#tab_upload">Upload Image</a></li>
 			<li><a href="#tab_create">Create New Album</a></li>
@@ -66,27 +66,6 @@
 	<!-- Create new album tab -->
 	<div id="tab_create">
 		<div>
-		<!--
-			<form id="create_album_form" class="fg_form" data-title="Create a new album">
-				<div class="album_input">
-					<table>
-					<tr>
-						<td class="right"><label for="album_name">Album Name</label></td>
-						<td><input class="input_text" type="text" name="album_name" size="30" title="Give your album a name" /></td>
-					</tr>
-					<tr>
-						<td class="right"><label for="album_desc">Album Description</label></td>
-						<td><textarea class="input_text double" name="album_desc" size="30" title="Write something about this album" ></textarea></td>
-					</tr>
-					<tr>
-						<td class="right"><input type="checkbox" name="make-pub" value="on" checked="checked" title="Public or personal album?" />Make it public!</td>
-						<td><input type="submit" name="submit" value="Create" id="btn_create_album" title="Create" /><input type="reset" value="Reset" title="Reset" /></td>
-					</tr>
-					</table>
-				</div>
-				<div id="cg_error"></div>
-			</form>
-			-->
 			<?php $form_password = $this->beginWidget('CActiveForm', array(
 				'id' => 'create_album_form',
 				'action' => 'javascript:void(0)',
@@ -133,7 +112,7 @@
 			<?php $this->endWidget(); ?>
 		</div>
 	</div>
-    <br>
+    <br />
     <div class="well">
         <h3>Notes</h3>
         <ul>

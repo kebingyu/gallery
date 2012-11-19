@@ -28,19 +28,9 @@ class UploadController extends Controller
 			case 'OPTIONS':
 				break;
 			case 'HEAD':
-			/*
-			case 'GET':
-				$upload_handler->get();
-				break;
-			*/
 			case 'POST':
 				$upload_handler->post();
 				break;
-			/*
-			case 'DELETE':
-				$upload_handler->delete($sFileName);
-				break;
-			*/
 			default:
 				throw new CHttpException(400, 'Method not allowed');
 		}

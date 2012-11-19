@@ -92,7 +92,7 @@ class UploadHandler
 
 	/**
 	 * updateDatabase: add/delete operation in image/image_album table
-	 * NOTE: update image info is done in services/image controller
+	 * NOTE: update image info is done in image controller
 	 * 
 	 * @param string $sMethod 
 	 * @param mixed $file 
@@ -102,18 +102,13 @@ class UploadHandler
 	protected function updateDatabase($sMethod, $file) {
 		if ($sMethod === 'add') { // add image record to the database
 			$oImageModel = new ImageModel();
-			$oImageModel->_sImageName = $file->name;
-			$oImageModel->_sImageDesc = $file->desc;
-			$oImageModel->_nCreateTime = time();
-			$oImageModel->_nIsPublic = $file->album['is_public'];
-			$oImageModel->add();
+			$oImageModel->name = $file->name;
+			$oImageModel->description = $file->desc;
+			$oImageModel->is_public = $file->album['is_public'];
+			$oImageModel->album_id = $file->album['id'];
+			$oImageModel->save();
 			unset($oImageModel);
-			// add relation info 
-			$oRelationModel = new ImageAlbumModel();
-			$oRelationModel->_sImageName = $file->name;
-			$oRelationModel->_nAlbumID = $file->album['id'];
-			$oRelationModel->add();
-			unset($oRelationModel);
+			/*
 			// add info table
 			$oInfoModel = new InfoModel();
 			$oInfoModel->_sCategory = 'image';
@@ -123,6 +118,7 @@ class UploadHandler
 			$oInfoModel->_nIsPublic = $file->album['is_public'];
 			$oInfoModel->add();
 			unset($oInfoModel);
+			 */
 		} else if ($sMethod === 'delete'){ // delete image record from database
 			$oModel = new ImageModel();
             $oModel->_sImageName = $file;
@@ -322,10 +318,10 @@ class UploadHandler
     protected function handle_form_data($file, $index) {
         // get album info
 		$temp = array();
-		$oFDS = new XSSHandler();
-		$temp['name'] = $oFDS->FilterXSS_SQL(trim($_POST['saveto_album_name']));
-		$temp['id'] = $_POST['saveto_album_id'];
-		$temp['is_public'] = $_POST['saveto_album_is_public'];
+		$p = new CHtmlPurifier();
+		$temp['name'] = $p->purify($_POST['saveto_album_name']);
+		$temp['id'] = $p->purify($_POST['saveto_album_id']);
+		$temp['is_public'] = $p->purify($_POST['saveto_album_is_public']);
 		return $temp;
     }
 
@@ -437,8 +433,8 @@ class UploadHandler
         if ($upload && is_array($upload['tmp_name'])) {
             // param_name is an array identifier like "files[]",
             // $_FILES is a multi-dimensional array:
-			$oFDS = new XSSHandler();
-			$aUploadName = array_map(array($oFDS, 'FilterXSS_SQL'), $_POST['upload_name']);
+			$p = new CHtmlPurifier();
+			$aUploadName = array_map(array($p, 'purify'), $_POST['upload_name']);
             foreach ($upload['tmp_name'] as $index => $value) {
                 $info[] = $this->handle_file_upload(
                     $upload['tmp_name'][$index],
@@ -494,13 +490,11 @@ class UploadHandler
      * @return json
      */
     public function delete($sName = '') {
-		require_once('FormDataScrubbing.class.inc');
-		$oFDS = new XSSHandler();	
-        //$file_name = isset($_REQUEST['imageName']) ? $oFDS->FilterXSS_SQL(trim($_REQUEST['imageName'])) : '';
+		$p = new CHtmlPurifier();	
 		$file_name = isset($_REQUEST['file']) ? 
 			$_REQUEST['file'] : isset($_REQUEST['imageName']) ? 
 			$_REQUEST['imageName'] : $sName;
-		$file_name = $oFDS->FilterXSS_SQL(trim($file_name));
+		$file_name = $p->purify($file_name);
 		$temp = $this->updateDatabase('delete', $file_name);
 		if ($temp['stat'] !== 'success') {
 			$data['stat'] = $temp['stat'];
