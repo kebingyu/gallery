@@ -97,7 +97,7 @@ return array(
 		),
 		'db'=>array(
 			'class' => 'CDbConnection',
-			'connectionString' => 'mysql:host=localhost;dbname=test',
+			'connectionString' => 'mysql:host=localhost;dbname=gallery',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'zhandxu5',

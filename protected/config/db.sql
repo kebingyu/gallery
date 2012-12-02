@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS test;
-CREATE DATABASE test;
-USE test;
+DROP DATABASE IF EXISTS gallery;
+CREATE DATABASE gallery;
+USE gallery;
 
 CREATE TABLE IF NOT EXISTS user (
 	id int(10) unsigned NOT NULL auto_increment,
