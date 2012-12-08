@@ -31,4 +31,19 @@ class Controller extends CController
 	{
 		Yii::app()->clientScript->registerPackage('main');
 	}
+
+	/**
+	 * This is the action to handle external exceptions.
+	 */
+	public function actionError()
+	{
+	    if ($error=Yii::app()->errorHandler->error) {
+	    	if(Yii::app()->request->isAjaxRequest) {
+	    		echo $error['message'];
+			} else {
+				// user double slashes to search under the application's view path
+	        	$this->render('//site/error', $error);
+			}
+	    }
+	}
 }

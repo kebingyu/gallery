@@ -27,18 +27,13 @@ class SiteController extends Controller
 		$this->render('index');
 	}
 
-	/**
-	 * This is the action to handle external exceptions.
-	 */
-	public function actionError()
+	public function actionRegister() 
 	{
-	    if($error=Yii::app()->errorHandler->error)
-	    {
-	    	if(Yii::app()->request->isAjaxRequest)
-	    		echo $error['message'];
-	    	else
-	        	$this->render('error', $error);
-	    }
+		$model_reg = new UserModel('register');
+		$this->pageTitle = 'Register';
+		$this->render('register', array(
+			'model_reg' => $model_reg,
+		));
 	}
 
 }

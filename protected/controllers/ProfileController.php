@@ -3,11 +3,6 @@ class ProfileController extends Controller
 {
 	public $section = 'profile';
 
-	public function init() {
-		parent::init();
-		Yii::app()->clientScript->registerPackage('formly');
-	}
-
 	public function filters() {
 		return array(
 			'accessControl',

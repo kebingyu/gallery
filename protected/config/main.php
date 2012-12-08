@@ -51,15 +51,11 @@ return array(
 			'packages' => array(
 				'main' => array(
 					'baseUrl' => '/',
-					'css' => array(
-						'css/zebra_dialog.css', 
-						'css/all.css',
-					),
+					'css' => array('css/all.css'),
 					'js' => array(
 						'js/jquery-1.8.1.min.js',
 						'js/jquery-ui-1.8.23.custom.min.js',
 						'js/vendors/jquery.yiiactiveform.js',
-						'js/zebra_dialog.js',
 						'js/all.js',
 					),
 				),

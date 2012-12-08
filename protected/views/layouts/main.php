@@ -14,7 +14,7 @@
 			<div id="w2_content">
 				<?php echo $content; ?>
 			</div>
-			<?php $this->renderPartial('../shared/footer'); ?>
+			<?php //$this->renderPartial('../shared/footer'); ?>
 		</div>
 	</div>
 </body>

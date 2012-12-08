@@ -19,5 +19,5 @@
 var section = '<?php echo $this->getController()->section; ?>';
 $('#nav > li').filter('[class="' + section + '"]').addClass('active');
 </script>
-<div class="fg-modal">loading...</div>
+<div class="ajax-loading">loading...</div>
 <!-- Top Navigation Bar End -->
