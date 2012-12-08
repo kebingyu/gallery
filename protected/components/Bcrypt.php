@@ -1,34 +1,4 @@
 <?php 
-
-class Utility
-{
-	public static function sessUserLogin($aUser) {
-		@session_start();
-		session_regenerate_id(true);
-		$_SESSION['valid'] = 1;
-		$_SESSION['userid'] = intval($aUser['id']);
-		$_SESSION['username'] = $aUser['username'];
-		$_SESSION['lastlogin'] = $aUser['last_login_time'];
-		$_SESSION['display_login'] = true;
-	}
-
-	// put this in the very beginning of the html code
-	public static function sessUserLogOut() {
-		@session_start();
-		session_destroy();
-		if (count($_SESSION) == 0) {
-			$_SESSION = array();
-			session_destroy();
-		}
-		session_write_close();
-	}
-	
-	public static function sessUserValid() {
-		@session_start();
-		return (isset($_SESSION['valid']) and $_SESSION['valid']) ? true : false;
-	}
-}
-
 /**
  * Bcrypt: password hashing
  * 
@@ -43,7 +13,7 @@ class Bcrypt
 	private $_nRounds;
 
 	public function __construct($nRounds = 12) {
-		if(CRYPT_BLOWFISH != 1) {
+		if (CRYPT_BLOWFISH != 1) {
 			throw new Exception("bcrypt not supported in this installation. See http://php.net/crypt");
 		}
 		$this->_nRounds = $nRounds;
@@ -51,21 +21,18 @@ class Bcrypt
 
 	public function hash($sPasswd) {
 		$sHash = crypt($sPasswd, $this->getSalt());
-		if(strlen($sHash) > 13) {
-			return $sHash;
-		}
-		return false;
+		return strlen($sHash) > 13 ? $sHash : NULL;
 	}
 
 	public function verify($sPasswd, $sExistingHash) {
-		$sHash = crypt($sPasswd, $sExistingHash);
-		return $sHash == $sExistingHash;
+		return crypt($sPasswd, $sExistingHash) == $sExistingHash;
 	}
 
 	private function getSalt() {
 		$cost = 10 + (date("Y") - 2010);
-		$salt = '$2a$' . $cost . '$';
-		$salt .= substr($this->convBase(bin2hex(openssl_random_pseudo_bytes(16)), '0123456789abcdef', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./'), 0, 22);
+		$salt = '$2y$' . $cost . '$';
+		$salt .= substr(str_replace('+', '.', base64_encode(pack('N4', mt_rand(), mt_rand(), mt_rand(), mt_rand()))), 0, 22);
+		//$salt .= substr($this->convBase(bin2hex(openssl_random_pseudo_bytes(16)), '0123456789abcdef', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ./'), 0, 22);
 		$salt .= '$';
 		return $salt;
 	}

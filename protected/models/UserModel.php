@@ -99,7 +99,7 @@ class UserModel extends CActiveRecord
 	public function validatePassword($sPassword, $sHash)
 	{
 		$oBcrypt = new Bcrypt();
-		return $oBcrypt->verify($sPassword, $sHash) ? true : false;	
+		return $oBcrypt->verify($sPassword, $sHash);	
 	}
 
 	protected function beforeSave()
