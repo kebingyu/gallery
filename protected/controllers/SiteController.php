@@ -29,10 +29,10 @@ class SiteController extends Controller
 
 	public function actionRegister() 
 	{
-		$model_reg = new UserModel('register');
 		$this->pageTitle = 'Register';
+		$this->layout = 'system';
 		$this->render('register', array(
-			'model_reg' => $model_reg,
+			'model_reg' => new UserModel('register'),
 		));
 	}
 
