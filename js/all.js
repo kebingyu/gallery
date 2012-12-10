@@ -399,10 +399,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#reg_form').formly({'theme':'Dark'}, function(e) {
-        $('.callback').html(e);
-    });
-
 	isValidateReady('validateRegisterForm');
 
 	// login form

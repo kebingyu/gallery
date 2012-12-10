@@ -3,8 +3,11 @@ $this->pageTitle=Yii::app()->name . ' - Error';
 $this->breadcrumbs=array(
 	'Error',
 );
-switch (strval($code)) {
-case '404':
+switch ($code) {
+case 403:
+	$message = 'You are not allowed to access this page.';
+	break;
+case 404:
 default:
 	$message = 'We are unable to find this page. Please try again.';
 	break;

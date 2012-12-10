@@ -1,36 +1,29 @@
-<?php $this->includeSharedTemplate('htmlhead'); ?>
-</head>
-<body>
-	<div class="skip"><a href="#nav" accesskey="S" tabindex="1">Skip to Navigation</a></div>
-	<div class="skip"><a href="#content" tabindex="2">Skip to Content</a></div>
-	<div id="wrapper">
-		<div id="w1_main">
-			<div id="w2_content">
-				<div class="reset-password fg_form">
-					<form id="reset_password_form" data-title="Reset Your Password">
-						<table>
-						<tr>
-							<td class="right"><label for="user_name">Your username</label></td>
-							<td><input class="user-input" type="text" name="user_name" value="" /></td>
-						</tr>
-						<tr>
-							<td class="right"><label for="user_email">Your email address</label></td>
-							<td><input class="user-input" type="text" name="user_email" value="" /></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<input type="submit" name="submit" value="Submit" id="btn_reset_password" />
-								<input type="reset" value="Reset" />
-							</td>
-						</tr>
-						</table>
-						<div id="reset_error"></div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="reset_password fg_form system_form_container">
+	<?php $form = $this->beginWidget('CActiveForm', array(
+		'id' => 'reset_password_form',
+		'action' => 'javascript:void(0)',
+		'htmlOptions' => array(
+			'data-title' => 'Reset your password: new password will be sent to the given email',
+		),
+	));?>
+	<table>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'username', array('label' => 'Your username *')); ?></td>
+		<td><?php echo $form->textField($model, 'username', array('class' => 'user-input')); ?></td>
+	</tr>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'email', array('label' => 'Your email address *')); ?></td>
+		<td><?php echo $form->textField($model, 'email', array('class' => 'user-input')); ?></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><?php echo CHtml::submitButton('Submit', array('id' => 'btn_reset_password', 'name' => 'submit')); ?></td>
+	</tr>
+	</table>
+	<div id="error_message_container"></div>
+	<?php $this->endWidget(); ?>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	// enable formly
@@ -41,7 +34,7 @@ $(document).ready(function() {
 	$('#btn_reset_password').click(function() {
 		$.ajax({
 			type : 'POST',
-			url : '/reset',
+			url : '/profile/reset',
 			data : $('#reset_password_form').serialize(),
 			success : function(data) {
 				if (data.stat == 'success') {
@@ -54,7 +47,7 @@ $(document).ready(function() {
 							html += data.error[i];
 						}
 					}
-					$('#reset_error').html(html);
+					$('#error_message_container').html(html);
 				}
 			},
 			error : function() {
@@ -66,6 +59,3 @@ $(document).ready(function() {
 	});
 });
 </script>
-</body>
-</html>
-

@@ -924,12 +924,14 @@ select.chzn-select {
 	width: 70%;
 }
 
-.album_input, .reset-password {
+.album_input {
 	float: left;
 	width: 60%;
 }
 
-.reset-password {
+.system_form_container {
+	float: left;
+	width: 60%;
 	margin: 100px auto;
 }
 

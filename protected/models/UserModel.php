@@ -48,6 +48,7 @@ class UserModel extends CActiveRecord
 			array('username, password, new_password, email', 'length', 'max' => 128),
 			array('email, conf_email', 'email'),
 			array('create_time, last_login_time, last_logout_time, last_login_ip', 'safe'),
+			array('email', 'unique'),
 			// purify inputs
 			array('username, password, new_password, email, conf_email', 'filter', 'filter' => array($this, 'purify')), 
 			// register scenario
@@ -66,7 +67,8 @@ class UserModel extends CActiveRecord
 			// reset email scenario
 			array('password, email, conf_email', 'required', 'on' => 'reset-email'),
 			array('email', 'compare', 'compareAttribute' => 'conf_email', 'on' => 'reset-email'),
-			array('email', 'unique', 'on' => 'reset'),
+			// forget password scenario
+			array('password, email', 'required', 'on' => 'forget-password'),
 		);
 	}
 

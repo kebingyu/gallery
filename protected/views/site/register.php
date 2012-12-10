@@ -1,44 +1,44 @@
-<div class="left pnl_reg">
+<div class="register_user fg_form system_form_container">
 	<!-- Register Form -->
-	<?php $form_reg = $this->beginWidget('CActiveForm', array(
+	<?php $form = $this->beginWidget('CActiveForm', array(
 		'id' => 'reg_form',
 		'action' => 'javascript:void(0)',
-		'enableClientValidation' => false,
-		'focus' => array($model_reg, 'username'),
-		'clientOptions' => array(
-			'validateOnSubmit' => true,
-			'validateOnChange' => true,
-			'validateOnType' => false,
+		'htmlOptions' => array(
+			'data-title' => 'Register a new user',
 		),
 	));?>
-
-	<?php echo $form_reg->errorSummary($model_reg); ?>
-	<h1>Not a member yet? Sign Up!</h1>
-	<div class="">
-		<?php echo $form_reg->labelEx($model_reg, 'username', array('class' => 'grey reg')); ?>
-		<?php echo $form_reg->textField($model_reg, 'username', array('class' => 'field')); ?>
-		<?php echo $form_reg->error($model_reg, 'username'); ?>
-	</div>
-	<div class="">
-		<?php echo $form_reg->labelEx($model_reg, 'password', array('class' => 'grey reg')); ?>
-		<?php echo $form_reg->passwordField($model_reg, 'password', array('class' => 'field pnl_pwd')); ?>
-		<?php echo $form_reg->error($model_reg, 'password'); ?>
-	</div>
-	<div class="">
-		<?php echo $form_reg->labelEx($model_reg, 'conf_password', array('class' => 'grey reg')); ?>
-		<?php echo $form_reg->passwordField($model_reg, 'conf_password', array('class' => 'field pnl_pwd')); ?>
-		<?php echo $form_reg->error($model_reg, 'conf_password'); ?>
-	</div>
-	<div class="">
-		<?php echo $form_reg->labelEx($model_reg, 'pcode', array('class' => 'grey reg')); ?>
-		<?php echo $form_reg->textField($model_reg, 'pcode', array('class' => 'field')); ?>
-		<?php echo $form_reg->error($model_reg, 'pcode'); ?>
-	</div>
-	<?php echo CHtml::submitButton('Register', array('id' => 'btn_register', 'name' => 'submit')); ?>
+	<table>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'username', array('class' => 'grey reg')); ?></td>
+		<td><?php echo $form->textField($model, 'username', array('class' => 'field')); ?></td>
+	</tr>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'password', array('class' => 'grey reg')); ?></td>
+		<td><?php echo $form->passwordField($model, 'password', array('class' => 'field pnl_pwd')); ?></td>
+	</tr>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'conf_password', array('class' => 'grey reg')); ?></td>
+		<td><?php echo $form->passwordField($model, 'conf_password', array('class' => 'field pnl_pwd')); ?></td>
+	</tr>
+	<tr>
+		<td class="right"><?php echo $form->labelEx($model, 'pcode', array('class' => 'grey reg')); ?></td>
+		<td><?php echo $form->textField($model, 'pcode', array('class' => 'field')); ?></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><?php echo CHtml::submitButton('Register', array('id' => 'btn_register', 'name' => 'submit')); ?></td>
+	</tr>
+	</table>
 	<?php $this->endWidget(); ?>
 	<!-- Register Form end -->
+	<div id="error_message_container"></div>
 </div>
-<div class="left">
-	<div id="pnl_jserror"></div>
-	<div id="pnl_error"></div>
-</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#reg_form').formly({'theme':'Dark'}, function(e) {
+        $('.callback').html(e);
+    });
+});
+</script>
+

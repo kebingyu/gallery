@@ -32,7 +32,16 @@ class SiteController extends Controller
 		$this->pageTitle = 'Register';
 		$this->layout = 'system';
 		$this->render('register', array(
-			'model_reg' => new UserModel('register'),
+			'model' => new UserModel('register'),
+		));
+	}
+
+	public function actionForget() 
+	{
+		$this->pageTitle = 'Forget your password';
+		$this->layout = 'system';
+		$this->render('forget', array(
+			'model' => new UserModel(),
 		));
 	}
 
