@@ -3,7 +3,7 @@
 		'id' => 'reset_password_form',
 		'action' => 'javascript:void(0)',
 		'htmlOptions' => array(
-			'data-title' => 'Reset your password: new password will be sent to the given email',
+			'data-title' => 'Reset your password',
 		),
 	));?>
 	<table>

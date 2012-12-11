@@ -44,15 +44,11 @@ class ProfileController extends Controller
 				));
 				if ($oModel) {
 					$oModel->setScenario('forget-password');
-					if ($oModel->validate()) {
-						// reset password
-					} else {
-						$data['stat'] = 'fail';
-						$data['error'] = $oModel->getErrors();
-					}
+					// reset password
+					// todo: echo email
 				} else {
 					$data['stat'] = 'fail';
-					$data['error'] = $oModel->getErrors();
+					$data['error'] = 'No match record found';
 				}
 			} else {
 				$oModel = UserModel::model()->find('id=?', array(

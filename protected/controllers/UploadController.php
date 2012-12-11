@@ -5,8 +5,6 @@ class UploadController extends Controller
 		$this->pageTitle  = 'Upload Photo';
 		Yii::app()->clientScript->registerMetaTag('viewport', 'width=device-width', null, array('lang' => 'en'));
 		Yii::app()->clientScript->registerPackage('upload');
-		Yii::app()->clientScript->registerPackage('chosen');
-		Yii::app()->clientScript->registerPackage('formly');
 		Yii::app()->clientScript->registerPackage('tabify');
 		$this->render('index', array(
 			'arrAlbumList' => AlbumModel::model()->getAlbumList('private'),
