@@ -96,7 +96,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=gallery',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'zhandxu5',
+			'password' => 'Kebing33',
 			'charset' => 'utf8',
 			// turn on schema caching to improve performance
 			// 'schemaCachingDuration' => 3600,
@@ -129,6 +129,9 @@ return array(
 				),
 				 */
 			),
+		),
+		'request' => array(
+			'class' => 'CodeceptionHttpRequest',
 		),
 	),
 	// application-level parameters that can be accessed

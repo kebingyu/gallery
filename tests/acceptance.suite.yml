@@ -16,3 +16,6 @@ modules:
     config:
         PhpBrowser:
             url: 'http://yii.kyutest.com'
+        Selenium:
+            url: 'http://yii.kyutest.com'
+            browser: firefox
