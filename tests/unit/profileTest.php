@@ -10,7 +10,6 @@ class profileTest extends \Codeception\TestCase\Test
 
 	protected function _before()
 	{
-		include '/var/www/sites/yii/gallery/protected/models/UserModel.php';
 	}
 
 	protected function _after()
@@ -18,14 +17,6 @@ class profileTest extends \Codeception\TestCase\Test
 	}
 
 	// tests
-	/*
-	public function testMe()
-	{
-		$I->seeInDatabase('users', array(
-			'username' => 'kyu',
-		));
-	}
-	 */
 	function testSavingUser()
 	{
 		$user = new UserModel();
@@ -35,7 +26,6 @@ class profileTest extends \Codeception\TestCase\Test
 		$this->assertEquals('Miles', $user->username);
 		$this->codeGuy->seeInDatabase('user', array(
 			'username' => 'Miles', 
-			//'password' => 'test',
 		));
 	}
 

@@ -13,7 +13,7 @@ modules:
             password: 'Kebing33'
             dump: 'tests/_data/dump.sql'
             populate: false
-            cleanup: false
+            cleanup: true
         Yii1:
             appPath: '/var/www/sites/yii/gallery/index.php'
             url: 'http://yii.kyutest.com/index.php'
